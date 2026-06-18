@@ -1,0 +1,49 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números deseas ingresar? ";
+    cin >> n;
+
+    cout << "\nIntroduce los " << n << " números:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Número " << (i + 1) << ": ";
+        cin >> vector[i];
+    }
+}
+
+// 2. FUNCIÓN PARA ENCONTRAR EL MÍNIMO
+// Cambiamos el nombre y la lógica de comparación
+double obtenerMinimo(double vector[], int n) {
+    double minimo = vector[0]; // Ahora asumimos que el primero es el menor
+
+    for (int i = 1; i < n; i++) {
+        // Si el número actual es MENOR que nuestro "mínimo" actual, lo cambiamos
+        if (vector[i] < minimo) {
+            minimo = vector[i];
+        }
+    }
+    return minimo; // Devolvemos el número más pequeño encontrado
+}
+
+// 3. FUNCIÓN PARA MOSTRAR EL RESULTADO
+void mostrarResultado(double elMenor) {
+    cout << "\nEl valor mínimo del vector es: " << elMenor << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL
+int main() {
+    int n = 0;
+    double miVector[100];
+
+    // El int main sigue llamando limpiamente a las funciones en orden
+    ingresarDatos(miVector, n);
+
+    double elMenor = obtenerMinimo(miVector, n);
+
+    mostrarResultado(elMenor);
+
+    return 0;
+}
