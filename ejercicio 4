@@ -1,0 +1,61 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números deseas ingresar? ";
+    cin >> n;
+
+    cout << "\nIntroduce los " << n << " números:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Número " << (i + 1) << ": ";
+        cin >> vector[i];
+    }
+}
+
+// 2. FUNCIÓN PARA REVERTIR EL VECTOR
+// Recibe el vector original y el vector invertido vacío
+void revertirVector(double original[], double invertido[], int n) {
+    int j = 0; // 'j' controlará las posiciones del vector invertido (empieza en 0)
+
+    // Recorremos el vector original desde la última posición (n - 1) hasta la primera (0)
+    for (int i = n - 1; i >= 0; i--) {
+        invertido[j] = original[i]; // Copiamos el elemento al nuevo vector
+        j++; // Avanzamos a la siguiente posición del vector invertido
+    }
+}
+
+// 3. FUNCIÓN PARA MOSTRAR LOS RESULTADOS
+void mostrarResultado(double original[], double invertido[], int n) {
+    cout << "\n--- Vectores Resultantes ---" << endl;
+
+    // Mostramos el original para comprobar que se mantuvo intacto
+    cout << "Vector Original: ";
+    for (int i = 0; i < n; i++) {
+        cout << "[" << original[i] << "] ";
+    }
+
+    // Mostramos el nuevo vector al revés
+    cout << "\nVector Invertido: ";
+    for (int i = 0; i < n; i++) {
+        cout << "[" << invertido[i] << "] ";
+    }
+    cout << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL
+int main() {
+    int n = 0;
+    double vecOriginal[100];
+    double vecInvertido[100]; // Creamos el segundo vector para almacenar el resultado
+
+    // El int main coordina el flujo completo:
+    ingresarDatos(vecOriginal, n);
+
+    revertirVector(vecOriginal, vecInvertido, n);
+
+    mostrarResultado(vecOriginal, vecInvertido, n);
+
+    return 0;
+}
