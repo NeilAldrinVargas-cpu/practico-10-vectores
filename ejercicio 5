@@ -1,0 +1,64 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números deseas ingresar? ";
+    cin >> n;
+
+    cout << "\nIntroduce los " << n << " números:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Número " << (i + 1) << ": ";
+        cin >> vector[i];
+    }
+}
+
+// 2. FUNCIÓN PARA REVERTIR EL VECTOR (La misma del ejercicio anterior)
+void revertirVector(double original[], double invertido[], int n) {
+    int j = 0;
+    for (int i = n - 1; i >= 0; i--) {
+        invertido[j] = original[i];
+        j++;
+    }
+}
+
+// 3. FUNCIÓN PARA VERIFICAR SI SON IGUALES
+// Devuelve 'true' (verdadero) si es capicúa o 'false' (falso) si no lo es
+bool esCapicua(double original[], double invertido[], int n) {
+    for (int i = 0; i < n; i++) {
+        // Si encontramos una sola casilla diferente, ya no puede ser capicúa
+        if (original[i] != invertido[i]) {
+            return false; // Terminamos la función y devolvemos falso
+        }
+    }
+    return true; // Si revisó todo el vector y no encontró fallas, devuelve verdadero
+}
+
+// 4. FUNCIÓN PARA MOSTRAR EL RESULTADO
+void mostrarResultado(bool resultado) {
+    if (resultado == true) {
+        cout << "\n¡El vector SÍ es capicúa!" << endl;
+    } else {
+        cout << "\nEl vector NO es capicúa." << endl;
+    }
+}
+
+// 5. FUNCIÓN PRINCIPAL
+int main() {
+    int n = 0;          
+    double vecOriginal[100]; 
+    double vecInvertido[100]; 
+
+    // El int main sigue siendo un director de orquesta impecable:
+    ingresarDatos(vecOriginal, n); 
+    
+    revertirVector(vecOriginal, vecInvertido, n);
+    
+    // Guardamos la respuesta (true o false) en una variable booleana
+    bool resultado = esCapicua(vecOriginal, vecInvertido, n);
+    
+    mostrarResultado(resultado); 
+
+    return 0;
+}
