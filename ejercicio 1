@@ -1,0 +1,48 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números deseas ingresar? ";
+    cin >> n;
+
+    cout << "\nIntroduce los " << n << " números:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Número " << (i + 1) << ": ";
+        cin >> vector[i];
+    }
+}
+
+// 2. FUNCIÓN PARA ENCONTRAR EL MÁXIMO
+double obtenerMaximo(double vector[], int n) {
+    double maximo = vector[0]; // Asumimos que el primero es el mayor
+    
+    for (int i = 1; i < n; i++) {
+        if (vector[i] > maximo) {
+            maximo = vector[i]; // Actualizamos si encontramos uno más grande
+        }
+    }
+    return maximo; 
+}
+
+// 3. FUNCIÓN PARA MOSTRAR EL RESULTADO (Nueva función void)
+// Recibe el valor máximo calculado y simplemente lo imprime en pantalla
+void mostrarResultado(double elMayor) {
+    cout << "\nEl valor máximo del vector es: " << elMayor << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL
+int main() {
+    int n = 0;          
+    double miVector[100]; 
+
+    // El int main ahora SOLO llama a las funciones en orden cronológico:
+    ingresarDatos(miVector, n); 
+    
+    double elMayor = obtenerMaximo(miVector, n);
+    
+    mostrarResultado(elMayor); // <- Aquí llamamos a la nueva función
+
+    return 0;
+}
