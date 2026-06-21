@@ -1,0 +1,59 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR EL NÚMERO ENTERO
+void ingresarNumero(int &numero) {
+    cout << "Introduce un numero entero (1-20): ";
+    cin >> numero;
+}
+
+// 2. FUNCIÓN PARA CONVERTIR EL NÚMERO A TEXTO LITERAL
+string convertirNumeroALiteral(int numero) {
+    // Evaluamos el número usando un switch para retornar su texto equivalente
+    switch (numero) {
+        case 1:  return "UNO";
+        case 2:  return "DOS";
+        case 3:  return "TRES";
+        case 4:  return "CUATRO";
+        case 5:  return "CINCO";
+        case 6:  return "SEIS";
+        case 7:  return "SIETE";
+        case 8:  return "OCHO";
+        case 9:  return "NUEVE";
+        case 10: return "DIEZ";
+        case 11: return "ONCE";
+        case 12: return "DOCE";
+        case 13: return "TRECE";
+        case 14: return "CATORCE";
+        case 15: return "QUINCE";
+        case 16: return "DIECISEIS";
+        case 17: return "DIECISIETE";
+        case 18: return "DIECIOCHO";
+        case 19: return "DIECINUEVE";
+        case 20: return "VEINTE";
+        default: return "NUMERO FUERA DE RANGO (Solo de 1 a 20)";
+    }
+}
+
+// 3. FUNCIÓN PARA MOSTRAR EL RESULTADO
+void mostrarResultado(string textoLiteral) {
+    cout << "Salida esperada: '" << textoLiteral << "'" << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL (Solo coordina el flujo de las llamadas)
+int main() {
+    int miNumero = 0;
+
+    // 1. Captura de datos
+    ingresarNumero(miNumero);
+    
+    // 2. Procesamiento (Conversión)
+    string resultadoLiteral = convertirNumeroALiteral(miNumero);
+    
+    // 3. Salida de datos
+    mostrarResultado(resultadoLiteral);
+
+    return 0;
+}
