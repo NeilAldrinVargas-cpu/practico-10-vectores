@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+#include <cmath> // Necesaria para usar abs() (valor absoluto)
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR EL TAMAÑO Y LOS ELEMENTOS DEL VECTOR
+void ingresarDatos(vector<double> &A, int &n) {
+    cout << "Introduce la cantidad de elementos (n): ";
+    cin >> n;
+
+    // Redimensionamos el vector al tamaño indicado por el usuario
+    A.resize(n);
+
+    cout << "Introduce los " << n << " numeros reales del vector:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Elemento [" << i << "]: ";
+        cin >> A[i];
+    }
+}
+
+// 2. FUNCIÓN PARA ENCONTRAR LA DIFERENCIA CONSECUTIVA MÁS GRANDE
+double calcularDiferenciaMaxima(const vector<double> &A, int n) {
+    // Si el vector tiene menos de 2 elementos, no hay parejas consecutivas para comparar
+    if (n < 2) {
+        return 0.0;
+    }
+
+    // Inicializamos la diferencia máxima con la resta de la primera pareja consecutiva
+    double maxDiferencia = abs(A[0] - A[1]);
+
+    // Recorremos el vector calculando las diferencias de las demás parejas consecutivas
+    // Llegamos hasta (n - 1) para no salirnos del límite del vector al evaluar A[i+1]
+    for (int i = 1; i < n - 1; i++) {
+        double diferenciaActual = abs(A[i] - A[i + 1]);
+
+        // Si la diferencia que acabamos de calcular es mayor que la máxima registrada, la actualizamos
+        if (diferenciaActual > maxDiferencia) {
+            maxDiferencia = diferenciaActual;
+        }
+    }
+
+    return maxDiferencia;
+}
+
+// 3. FUNCIÓN PARA MOSTRAR EL RESULTADO
+void mostrarResultado(double diferenciaFinal) {
+    cout << "Salida esperada (Diferencia mas grande): " << diferenciaFinal << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL (Solo coordina el flujo de las llamadas)
+int main() {
+    int n = 0;
+    vector<double> miVector;
+
+    // 1. Captura de datos
+    ingresarDatos(miVector, n);
+    
+    // 2. Procesamiento (Búsqueda de la diferencia máxima)
+    double resultadoMaximo = calcularDiferenciaMaxima(miVector, n);
+    
+    // 3. Salida de datos
+    mostrarResultado(resultadoMaximo);
+
+    return 0;
+}
