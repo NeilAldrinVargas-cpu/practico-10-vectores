@@ -1,66 +1,59 @@
 #include <iostream>
-#include <vector>
 #include <cmath> // Necesaria para usar abs() (valor absoluto)
 
 using namespace std;
 
-// 1. FUNCIÓN PARA PEDIR EL TAMAÑO Y LOS ELEMENTOS DEL VECTOR
-void ingresarDatos(vector<double> &A, int &n) {
-    cout << "Introduce la cantidad de elementos (n): ";
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números reales tendrá el vector A? ";
     cin >> n;
 
-    // Redimensionamos el vector al tamaño indicado por el usuario
-    A.resize(n);
+    // Validación: Se necesitan al menos 2 números para tener una pareja consecutiva
+    while (n < 2) {
+        cout << "[Error] El vector debe tener al menos 2 elementos. Intenta de nuevo: ";
+        cin >> n;
+    }
 
-    cout << "Introduce los " << n << " numeros reales del vector:" << endl;
+    cout << "Introduce los " << n << " números reales:" << endl;
     for (int i = 0; i < n; i++) {
-        cout << "Elemento [" << i << "]: ";
-        cin >> A[i];
+        cout << "A[" << i << "]: ";
+        cin >> vector[i];
     }
 }
 
-// 2. FUNCIÓN PARA ENCONTRAR LA DIFERENCIA CONSECUTIVA MÁS GRANDE
-double calcularDiferenciaMaxima(const vector<double> &A, int n) {
-    // Si el vector tiene menos de 2 elementos, no hay parejas consecutivas para comparar
-    if (n < 2) {
-        return 0.0;
-    }
+// 2. FUNCIÓN PARA ENCONTRAR LA DIFERENCIA MÁS GRANDE CONSECUTIVA
+double calcularMaximaDiferencia(double vector[], int n) {
+    // Calculamos la primera diferencia entre la casilla 0 y la casilla 1
+    double maxDiferencia = abs(vector[0] - vector[1]);
 
-    // Inicializamos la diferencia máxima con la resta de la primera pareja consecutiva
-    double maxDiferencia = abs(A[0] - A[1]);
-
-    // Recorremos el vector calculando las diferencias de las demás parejas consecutivas
-    // Llegamos hasta (n - 1) para no salirnos del límite del vector al evaluar A[i+1]
+    // Recorremos el vector calculando las diferencias de las siguientes parejas
+    // El límite es (n - 1) para que 'i + 1' nunca se salga del vector
     for (int i = 1; i < n - 1; i++) {
-        double diferenciaActual = abs(A[i] - A[i + 1]);
-
-        // Si la diferencia que acabamos de calcular es mayor que la máxima registrada, la actualizamos
+        double diferenciaActual = abs(vector[i] - vector[i + 1]);
+        
+        // Si la diferencia de la pareja actual es mayor que nuestra máxima guardada, la actualizamos
         if (diferenciaActual > maxDiferencia) {
             maxDiferencia = diferenciaActual;
         }
     }
-
     return maxDiferencia;
 }
 
-// 3. FUNCIÓN PARA MOSTRAR EL RESULTADO
-void mostrarResultado(double diferenciaFinal) {
-    cout << "Salida esperada (Diferencia mas grande): " << diferenciaFinal << endl;
+// 3. FUNCIÓN PARA MOSTRAR EL REPORTE
+void mostrarResultado(double mayorDiferencia) {
+    cout << "\nLa diferencia más grande entre dos elementos consecutivos es: " << mayorDiferencia << endl;
 }
 
-// 4. FUNCIÓN PRINCIPAL (Solo coordina el flujo de las llamadas)
+// 4. FUNCIÓN PRINCIPAL
 int main() {
     int n = 0;
-    vector<double> miVector;
+    double vectorA[100];
 
-    // 1. Captura de datos
-    ingresarDatos(miVector, n);
+    ingresarDatos(vectorA, n);
     
-    // 2. Procesamiento (Búsqueda de la diferencia máxima)
-    double resultadoMaximo = calcularDiferenciaMaxima(miVector, n);
+    double maximaDif = calcularMaximaDiferencia(vectorA, n);
     
-    // 3. Salida de datos
-    mostrarResultado(resultadoMaximo);
+    mostrarResultado(maximaDif);
 
     return 0;
 }
