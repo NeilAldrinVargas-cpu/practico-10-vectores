@@ -1,0 +1,61 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números deseas ingresar? ";
+    cin >> n;
+
+    // Validación sencilla: necesitamos al menos 3 números para poder promediar de a tres
+    while (n < 3) {
+        cout << "[Error] Debes ingresar al menos 3 números para este ejercicio. Intenta de nuevo: ";
+        cin >> n;
+    }
+
+    cout << "\nIntroduce los " << n << " números:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Número " << (i + 1) << ": ";
+        cin >> vector[i];
+    }
+}
+
+// 2. FUNCIÓN PARA CALCULAR LOS PROMEDIOS CONSECUTIVOS
+// Guarda los resultados en 'vecPromedios' y calcula cuántos promedios se lograron
+void calcularPromediosConsecutivos(double original[], int n, double vecPromedios[], int &cantPromedios) {
+    // El límite es (n - 2) para que nunca intentemos leer posiciones fuera del vector
+    cantPromedios = n - 2; 
+
+    for (int i = 0; i < cantPromedios; i++) {
+        // Sumamos el elemento actual (i), el siguiente (i+1) y el subsiguiente (i+2)
+        double suma = original[i] + original[i + 1] + original[i + 2];
+        
+        // Dividimos entre 3 y lo guardamos en el nuevo vector
+        vecPromedios[i] = suma / 3.0; 
+    }
+}
+
+// 3. FUNCIÓN PARA MOSTRAR LOS RESULTADOS
+void mostrarResultados(double vecPromedios[], int cantPromedios) {
+    cout << "\n--- LISTA DE PROMEDIOS CONSECUTIVOS ---" << endl;
+    for (int i = 0; i < cantPromedios; i++) {
+        cout << "P" << (i + 1) << " = " << vecPromedios[i] << endl;
+    }
+}
+
+// 4. FUNCIÓN PRINCIPAL
+int main() {
+    int n = 0;
+    int cantidadDePromedios = 0;
+    double miVector[100];
+    double vectorResultados[100];
+
+    // El int main se mantiene limpio, llamando a las funciones en orden:
+    ingresarDatos(miVector, n);
+
+    calcularPromediosConsecutivos(miVector, n, vectorResultados, cantidadDePromedios);
+
+    mostrarResultados(vectorResultados, cantidadDePromedios);
+
+    return 0;
+}
