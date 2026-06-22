@@ -1,0 +1,65 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LA CANTIDAD DE TÉRMINOS
+void pedirCantidad(int &n) {
+    cout << "¿Cuántos números de la serie de Fibonacci deseas generar? ";
+    cin >> n;
+
+    // Validación: Se necesita al menos 1 número para generar la serie
+    while (n <= 0 || n > 90) { 
+        // Límite de 90 porque números más grandes desbordan la capacidad de memoria estándar
+        cout << "[Error] El número debe estar entre 1 y 90. Intenta de nuevo: ";
+        cin >> n;
+    }
+}
+
+// 2. FUNCIÓN PARA GENERAR LA SERIE EN EL VECTOR
+// Usamos el tipo 'long long' en lugar de 'int' porque Fibonacci crece sumamente rápido
+void generarFibonacci(long long vector[], int n) {
+    // Caso base 1: Si pide al menos un elemento, el primero siempre es 0
+    if (n >= 1) {
+        vector[0] = 0;
+    }
+    
+    // Caso base 2: Si pide dos o más, el segundo siempre es 1
+    if (n >= 2) {
+        vector[1] = 1;
+    }
+
+    // A partir de la posición 2, calculamos sumando las dos casillas anteriores
+    for (int i = 2; i < n; i++) {
+        vector[i] = vector[i - 1] + vector[i - 2];
+    }
+}
+
+// 3. FUNCIÓN PARA MOSTRAR EL REPORTE RESULTANTE
+void mostrarResultado(long long vector[], int n) {
+    cout << "\n--- LOS PRIMEROS " << n << " NÚMEROS DE FIBONACCI ---" << endl;
+    cout << "[ ";
+    for (int i = 0; i < n; i++) {
+        cout << vector[i];
+        if (i < n - 1) {
+            cout << ", ";
+        }
+    }
+    cout << " ]" << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL (Solo llamadas de control)
+int main() {
+    int n = 0;
+    long long vectorFib[90]; // Vector con capacidad suficiente
+
+    // 1. Entrada de datos
+    pedirCantidad(n);
+    
+    // 2. Procesamiento matemático (Generar la lista)
+    generarFibonacci(vectorFib, n);
+    
+    // 3. Salida de resultados
+    mostrarResultado(vectorFib, n);
+
+    return 0;
+}
