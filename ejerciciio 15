@@ -1,0 +1,85 @@
+#include <iostream>
+#include <string> // Necesaria para manejar los nombres de los alumnos
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(string alumnos[], double notas[], int &n) {
+    cout << "¿Cuántos alumnos registrará en total? ";
+    cin >> n;
+
+    // Validación: Se necesitan al menos 3 alumnos para obtener el "Top 3"
+    while (n < 3 || n > 100) {
+        cout << "[Error] Debe ingresar entre 3 y 100 alumnos. Intente de nuevo: ";
+        cin >> n;
+    }
+
+    cout << "\n--- REGISTRO DE ALUMNOS Y NOTAS ---" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "\nAlumno [" << i + 1 << "]" << endl;
+        cout << "Nombre: ";
+        cin.ignore(); // Limpia el búfer del teclado para evitar problemas con cin
+        getline(cin, alumnos[i]); // Permite ingresar nombres con espacios
+        
+        cout << "Nota: ";
+        cin >> notas[i];
+        
+        // Validación opcional para que la nota esté en un rango válido (ej. 0 a 100)
+        while (notas[i] < 0 || notas[i] > 100) {
+            cout << "[Error] Nota inválida. Ingrese una nota entre 0 y 100: ";
+            cin >> notas[i];
+        }
+    }
+}
+
+// 2. FUNCIÓN PARA CLASIFICAR DESCENDENTEMENTE (VECTORES PARALELOS)
+void ordenarPorNotaDescendente(string alumnos[], double notas[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            // Condición para orden descendente: si la nota actual es MENOR que la siguiente, intercambiamos
+            if (notas[j] < notas[j + 1]) {
+                
+                // CRÍTICO: Intercambiar las notas
+                double tempNota = notas[j];
+                notas[j] = notas[j + 1];
+                notas[j + 1] = tempNota;
+
+                // CRÍTICO: Intercambiar los alumnos AL MISMO TIEMPO para mantener el paralelismo
+                string tempAlumno = alumnos[j];
+                alumnos[j] = alumnos[j + 1];
+                alumnos[j + 1] = tempAlumno;
+            }
+        }
+    }
+}
+
+// 3. FUNCIÓN PARA MOSTRAR LAS 3 MEJORES NOTAS
+void mostrarTopTres(string alumnos[], double notas[]) {
+    cout << "\n=======================================" << endl;
+    cout << "    🏆 PODIO: LAS 3 MEJORES NOTAS 🏆  " << endl;
+    cout << "=======================================" << endl;
+    
+    // Al estar ordenados de mayor a menor, los tres primeros índices (0, 1 y 2) son los mejores
+    for (int i = 0; i < 3; i++) {
+        cout << i + 1 << "° Puesto: " << alumnos[i] << " - Nota: " << notas[i] << endl;
+    }
+    cout << "=======================================" << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL
+int main() {
+    int n = 0;
+    string listaAlumnos[100];
+    double listaNotas[100];
+
+    // 1. Entrada de datos
+    ingresarDatos(listaAlumnos, listaNotas, n);
+    
+    // 2. Procesamiento (Ordenamiento sincronizado de ambos vectores)
+    ordenarPorNotaDescendente(listaAlumnos, listaNotas, n);
+    
+    // 3. Salida de resultados (Listar los 3 primeros)
+    mostrarTopTres(listaAlumnos, listaNotas);
+
+    return 0;
+}
