@@ -1,0 +1,92 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS DE UN VECTOR
+void ingresarDatos(double vector[], int &tamano, char nombre) {
+    cout << "¿Cuántos elementos tendrá el Vector " << nombre << "? ";
+    cin >> tamano;
+
+    while (tamano <= 0 || tamano > 50) {
+        cout << "[Error] El tamaño debe estar entre 1 y 50. Intenta de nuevo: ";
+        cin >> tamano;
+    }
+
+    // Nota: El usuario debe ingresarlos ya ordenados ascendentemente como pide el enunciado
+    cout << "Introduce los " << tamano << " números ORDENADOS ASCENDENTEMENTE para el Vector " << nombre << ":" << endl;
+    for (int i = 0; i < tamano; i++) {
+        cout << nombre << "[" << i << "]: ";
+        cin >> vector[i];
+    }
+    cout << endl;
+}
+
+// 2. FUNCIÓN PARA INTERCALAR MANTENIENDO EL ORDEN (MERGE)
+void intercalarOrdenado(double vectorA[], int n, double vectorB[], int m, double vectorC[]) {
+    int i = 0; // Índice para recorrer el Vector A
+    int j = 0; // Índice para recorrer el Vector B
+    int k = 0; // Índice para rellenar el Vector C
+
+    // Comparamos elementos de ambos vectores mientras ambos tengan datos disponibles
+    while (i < n && j < m) {
+        if (vectorA[i] <= vectorB[j]) {
+            vectorC[k] = vectorA[i];
+            i++; // Avanzamos en A
+        } else {
+            vectorC[k] = vectorB[j];
+            j++; // Avanzamos en B
+        }
+        k++; // Avanzamos en el vector resultante
+    }
+
+    // Si quedaron elementos sueltos en el Vector A, los copiamos todos
+    while (i < n) {
+        vectorC[k] = vectorA[i];
+        i++;
+        k++;
+    }
+
+    // Si quedaron elementos sueltos en el Vector B, los copiamos todos
+    while (j < m) {
+        vectorC[k] = vectorB[j];
+        j++;
+        k++;
+    }
+}
+
+// 3. FUNCIÓN PARA MOSTRAR EL VECTOR RESULTANTE
+void mostrarResultado(double vectorC[], int tamanoTotal) {
+    cout << "--- VECTOR INTERCALADO Y CLASIFICADO ---" << endl;
+    cout << "[ ";
+    for (int i = 0; i < tamanoTotal; i++) {
+        cout << vectorC[i];
+        if (i < tamanoTotal - 1) {
+            cout << ", ";
+        }
+    }
+    cout << " ]" << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL
+int main() {
+    // Declaración de variables
+    double vectorA[50];
+    double vectorB[50];
+    double vectorC[100]; // Capacidad para la suma de ambos
+    
+    int n = 0; // Tamaño vector A
+    int m = 0; // Tamaño vector B
+
+    // 1. Entrada de datos
+    ingresarDatos(vectorA, n, 'A');
+    ingresarDatos(vectorB, m, 'B');
+    
+    // 2. Procesamiento (Intercalación ordenada)
+    intercalarOrdenado(vectorA, n, vectorB, m, vectorC);
+    
+    // 3. Salida de resultados
+    int tamanoTotal = n + m;
+    mostrarResultado(vectorC, tamanoTotal);
+
+    return 0;
+}
