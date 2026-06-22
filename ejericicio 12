@@ -1,0 +1,85 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números tendrá el vector? ";
+    cin >> n;
+
+    // Validación de rango
+    while (n <= 0 || n > 100) {
+        cout << "[Error] El tamaño debe estar entre 1 y 100. Intenta de nuevo: ";
+        cin >> n;
+    }
+
+    cout << "Introduce los " << n << " números reales:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Elemento [" << i << "]: ";
+        cin >> vector[i];
+    }
+}
+
+// 2. FUNCIÓN AUXILIAR: Verifica si un número ya existe en un vector
+bool yaExiste(double vector[], int tamano, double numero) {
+    for (int i = 0; i < tamano; i++) {
+        if (vector[i] == numero) {
+            return true; // Encontrado, el número ya existe
+        }
+    }
+    return false; // No se encontró el número
+}
+
+// 3. FUNCIÓN PARA ELIMINAR DUPLICADOS
+// Modifica el tamaño 'n' por referencia porque el vector se va a reducir
+void eliminarDuplicados(double vector[], int &n) {
+    double vectorLimpio[100];
+    int tamanoLimpio = 0; // Lleva el conteo de elementos únicos
+
+    for (int i = 0; i < n; i++) {
+        // Si el elemento actual NO está en nuestro vector limpio, lo añadimos
+        if (!yaExiste(vectorLimpio, tamanoLimpio, vector[i])) {
+            vectorLimpio[tamanoLimpio] = vector[i];
+            tamanoLimpio++;
+        }
+    }
+
+    // Sobrescribimos el vector original con los elementos únicos
+    for (int i = 0; i < tamanoLimpio; i++) {
+        vector[i] = vectorLimpio[i];
+    }
+
+    // Actualizamos el tamaño original por referencia
+    n = tamanoLimpio;
+}
+
+// 4. FUNCIÓN PARA MOSTRAR EL VECTOR RESULTANTE
+void mostrarResultado(double vector[], int n) {
+    cout << "\n--- VECTOR SIN DUPLICADOS ---" << endl;
+    cout << "[ ";
+    for (int i = 0; i < n; i++) {
+        cout << vector[i];
+        if (i < n - 1) {
+            cout << ", ";
+        }
+    }
+    cout << " ]" << endl;
+    cout << "Nuevo tamaño del vector: " << n << " elementos." << endl;
+}
+
+// 5. FUNCIÓN PRINCIPAL (Solo llamadas de control)
+int main() {
+    int n = 0;
+    double miVector[100];
+
+    // 1. Entrada de datos
+    ingresarDatos(miVector, n);
+    
+    // 2. Procesamiento (Elimina duplicados y actualiza 'n')
+    eliminarDuplicados(miVector, n);
+    
+    // 3. Salida de resultados
+    mostrarResultado(miVector, n);
+
+    return 0;
+}
