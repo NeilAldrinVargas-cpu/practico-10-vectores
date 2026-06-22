@@ -1,0 +1,72 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números tendrá el vector? ";
+    cin >> n;
+
+    // Validación de rango
+    while (n <= 0 || n > 100) {
+        cout << "[Error] El tamaño debe estar entre 1 y 100. Intenta de nuevo: ";
+        cin >> n;
+    }
+
+    cout << "Introduce los " << n << " números reales o enteros:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Elemento [" << i << "]: ";
+        cin >> vector[i];
+    }
+}
+
+// 2. FUNCIÓN PARA CLASIFICAR/ORDENAR EL VECTOR (MÉTODO BURBUJA)
+void clasificarAscendente(double vector[], int n) {
+    // El primer bucle controla cuántas pasadas completas le damos al vector
+    for (int i = 0; i < n - 1; i++) {
+        // El segundo bucle compara los elementos vecinos adyacentes
+        // n - i - 1 evita revisar las posiciones finales que ya están ordenadas
+        for (int j = 0; j < n - i - 1; j++) {
+            // Si el elemento actual es mayor que el siguiente, se intercambian
+            if (vector[j] > vector[j + 1]) {
+                double temporal = vector[j];
+                vector[j] = vector[j + 1];
+                vector[j + 1] = temporal;
+            }
+        }
+    }
+}
+
+// 3. FUNCIÓN PARA MOSTRAR EL VECTOR
+void mostrarVector(double vector[], int n, string mensaje) {
+    cout << mensaje << endl;
+    cout << "[ ";
+    for (int i = 0; i < n; i++) {
+        cout << vector[i];
+        if (i < n - 1) {
+            cout << ", ";
+        }
+    }
+    cout << " ]" << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL
+int main() {
+    int n = 0;
+    double miVector[100];
+
+    // 1. Entrada de datos
+    ingresarDatos(miVector, n);
+    
+    // Mostramos cómo ingresó la lista originalmente
+    cout << endl;
+    mostrarVector(miVector, n, "--- LISTA ORIGINAL ---");
+    
+    // 2. Procesamiento (Ordenamiento in-place)
+    clasificarAscendente(miVector, n);
+    
+    // 3. Salida de resultados
+    mostrarVector(miVector, n, "\n--- LISTA CLASIFICA/ORDENADA ASCENDENTEMENTE ---");
+
+    return 0;
+}
