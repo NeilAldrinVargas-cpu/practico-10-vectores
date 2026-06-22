@@ -1,0 +1,71 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números tendrá el vector? ";
+    cin >> n;
+
+    // Validación: Al menos 1 elemento
+    while (n <= 0 || n > 100) {
+        cout << "[Error] El tamaño debe estar entre 1 y 100. Intenta de nuevo: ";
+        cin >> n;
+    }
+
+    cout << "Introduce los " << n << " números reales:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Elemento [" << i << "]: ";
+        cin >> vector[i];
+    }
+}
+
+// 2. FUNCIÓN PARA CONTAR NEGATIVOS, POSITIVOS Y CEROS
+// Se usa '&' en los contadores para modificar las variables originales del main
+void clasificarYContar(double vector[], int n, int &negativos, int &positivos, int &ceros) {
+    // Inicializamos los contadores en 0
+    negativos = 0;
+    positivos = 0;
+    ceros = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (vector[i] < 0) {
+            negativos++;
+        } else if (vector[i] > 0) {
+            positivos++;
+        } else {
+            ceros++; // Si no es menor ni mayor a 0, por defecto es un cero
+        }
+    }
+}
+
+// 3. FUNCIÓN PARA MOSTRAR EL REPORTE DE RESULTADOS
+void mostrarReporte(int negativos, int positivos, int ceros) {
+    cout << "\n--- REPORTE DE CONTEO ---" << endl;
+    cout << "Cantidad de números positivos : " << positivos << endl;
+    cout << "Cantidad de números negativos : " << negativos << endl;
+    cout << "Cantidad de ceros             : " << ceros << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL
+int main() {
+    // Declaración de variables
+    int n = 0;
+    double miVector[100];
+    
+    // Variables para almacenar los conteos
+    int cantNegativos = 0;
+    int cantPositivos = 0;
+    int cantCeros = 0;
+
+    // 1. Entrada de datos
+    ingresarDatos(miVector, n);
+    
+    // 2. Procesamiento (Se envían los contadores por referencia)
+    clasificarYContar(miVector, n, cantNegativos, cantPositivos, cantCeros);
+    
+    // 3. Salida de resultados
+    mostrarReporte(cantNegativos, cantPositivos, cantCeros);
+
+    return 0;
+}
