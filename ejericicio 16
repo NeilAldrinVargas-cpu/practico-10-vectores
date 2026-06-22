@@ -1,0 +1,148 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA INGRESAR UN ALUMNO (Añade de uno en uno)
+void ingresarAlumno(string alumnos[], double notas[], int &n) {
+    if (n >= 100) {
+        cout << "[Error] El sistema está lleno. No se pueden agregar más alumnos." << endl;
+        return;
+    }
+
+    cout << "\n--- REGISTRAR NUEVO ALUMNO ---" << endl;
+    cout << "Nombre del alumno: ";
+    cin.ignore(); // Limpiar búfer
+    getline(cin, alumnos[n]);
+
+    cout << "Nota: ";
+    cin >> notas[n];
+
+    // Validación de la nota
+    while (notas[n] < 0 || notas[n] > 100) {
+        cout << "[Error] Nota inválida (0-100). Intente de nuevo: ";
+        cin >> notas[n];
+    }
+
+    n++; // Incrementamos la cantidad total de alumnos registrados
+    cout << "¡Alumno registrado con éxito!" << endl;
+}
+
+// 2. FUNCIÓN PARA LISTAR TODOS LOS ALUMNOS
+void listarAlumnos(string alumnos[], double notas[], int n) {
+    if (n == 0) {
+        cout << "\n[Aviso] No hay alumnos registrados todavía." << endl;
+        return;
+    }
+
+    cout << "\n--- LISTA DE ALUMNOS REGISTRADOS ---" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << i + 1 << ". " << alumnos[i] << " | Nota: " << notas[i] << endl;
+    }
+}
+
+// 3. FUNCIÓN PARA ORDENAR ALFABÉTICAMENTE (Bubble Sort por Nombre)
+void ordenarAlfabeticamente(string alumnos[], double notas[], int n) {
+    if (n < 2) {
+        cout << "\n[Aviso] Se necesitan al menos 2 alumnos para ordenar." << endl;
+        return;
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            // Comparamos los strings. Si alumnos[j] es mayor alfabéticamente que alumnos[j+1], los intercambiamos
+            if (alumnos[j] > alumnos[j + 1]) {
+                // Intercambiar nombres
+                string tempNombre = alumnos[j];
+                alumnos[j] = alumnos[j + 1];
+                alumnos[j + 1] = tempNombre;
+
+                // Intercambiar notas simultáneamente para no perder el paralelismo
+                double tempNota = notas[j];
+                notas[j] = notas[j + 1];
+                notas[j + 1] = tempNota;
+            }
+        }
+    }
+    cout << "\n¡Lista ordenada alfabéticamente con éxito!" << endl;
+}
+
+// 4. FUNCIÓN PARA MOSTRAR LA MEJOR NOTA (Y a quién le pertenece)
+void mostrarMejorNota(string alumnos[], double notas[], int n) {
+    if (n == 0) {
+        cout << "\n[Aviso] No hay alumnos registrados." << endl;
+        return;
+    }
+
+    double maxNota = notas[0];
+    int posicionMejor = 0;
+
+    for (int i = 1; i < n; i++) {
+        if (notas[i] > maxNota) {
+            maxNota = notas[i];
+            posicionMejor = i; // Guardamos el índice del alumno con la mejor nota
+        }
+    }
+
+    cout << "\n🏆 LA MEJOR NOTA 🏆" << endl;
+    cout << "Alumno: " << alumnos[posicionMejor] << endl;
+    cout << "Nota: " << maxNota << endl;
+}
+
+// 5. FUNCIÓN PARA CALCULAR Y MOSTRAR EL PROMEDIO GENERAL
+void mostrarPromedioNotas(double notas[], int n) {
+    if (n == 0) {
+        cout << "\n[Aviso] No hay notas registradas para calcular un promedio." << endl;
+        return;
+    }
+
+    double suma = 0;
+    for (int i = 0; i < n; i++) {
+        suma += notas[i];
+    }
+
+    double promedio = suma / n;
+    cout << "\n📊 PROMEDIO GENERAL DE NOTAS 📊" << endl;
+    cout << "El promedio de los " << n << " alumnos es: " << promedio << endl;
+}
+
+// 6. FUNCIÓN DE MENÚ INTERACTIVO
+void ejecutarMenu(string alumnos[], double notas[], int &n) {
+    int opcion;
+    do {
+        cout << "\n=======================================" << endl;
+        cout << "          SISTEMA DE GESTIÓN           " << endl;
+        cout << "=======================================" << endl;
+        cout << "1) Ingresar un alumno y su nota" << endl;
+        cout << "2) Listar los alumnos" << endl;
+        cout << "3) Ordenar alfabéticamente" << endl;
+        cout << "4) Sacar la mejor nota" << endl;
+        cout << "5) Sacar el promedio de notas" << endl;
+        cout << "6) Salir del programa" << endl;
+        cout << "Seleccione una opción: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1: ingresarAlumno(alumnos, notas, n); break;
+            case 2: listarAlumnos(alumnos, notas, n); break;
+            case 3: ordenarAlfabeticamente(alumnos, notas, n); break;
+            case 4: mostrarMejorNota(alumnos, notas, n); break;
+            case 5: mostrarPromedioNotas(notas, n); break;
+            case 6: cout << "\nSaliendo del programa... ¡Hasta pronto!" << endl; break;
+            default: cout << "\n[Error] Opción no válida. Intente de nuevo." << endl;
+        }
+    } while (opcion != 6);
+}
+
+// 7. FUNCIÓN PRINCIPAL
+int main() {
+    // Declaración de variables globales al main
+    string listaAlumnos[100];
+    double listaNotas[100];
+    int cantidadActual = 0; // Inicia en 0 alumnos registrados
+
+    // El main solo le cede el control al sistema de menú
+    ejecutarMenu(listaAlumnos, listaNotas, cantidadActual);
+
+    return 0;
+}
