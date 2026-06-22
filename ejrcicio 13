@@ -1,0 +1,73 @@
+#include <iostream>
+
+using namespace std;
+
+// 1. FUNCIÓN PARA PEDIR LOS DATOS
+void ingresarDatos(double vector[], int &n) {
+    cout << "¿Cuántos números tendrá el vector? ";
+    cin >> n;
+
+    // Validación de rango
+    while (n <= 0 || n > 100) {
+        cout << "[Error] El tamaño debe estar entre 1 y 100. Intenta de nuevo: ";
+        cin >> n;
+    }
+
+    cout << "Introduce los " << n << " números reales:" << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "Elemento [" << i << "]: ";
+        cin >> vector[i];
+    }
+}
+
+// 2. FUNCIÓN PARA REVERTIR EL VECTOR EN EL MISMO LUGAR
+void revertirVector(double vector[], int n) {
+    int inicio = 0;
+    int fin = n - 1;
+
+    // El ciclo se detiene cuando los índices se cruzan en el medio
+    while (inicio < fin) {
+        // Intercambio clásico usando una variable temporal
+        double temporal = vector[inicio];
+        vector[inicio] = vector[fin];
+        vector[fin] = temporal;
+
+        // Movemos los apuntadores hacia el centro
+        inicio++;
+        fin--;
+    }
+}
+
+// 3. FUNCIÓN PARA MOSTRAR EL VECTOR
+void mostrarVector(double vector[], int n, string mensaje) {
+    cout << mensaje << endl;
+    cout << "[ ";
+    for (int i = 0; i < n; i++) {
+        cout << vector[i];
+        if (i < n - 1) {
+            cout << ", ";
+        }
+    }
+    cout << " ]" << endl;
+}
+
+// 4. FUNCIÓN PRINCIPAL
+int main() {
+    int n = 0;
+    double miVector[100];
+
+    // 1. Entrada de datos
+    ingresarDatos(miVector, n);
+    
+    // Mostramos el estado inicial
+    cout << endl;
+    mostrarVector(miVector, n, "--- VECTOR ORIGINAL ---");
+    
+    // 2. Procesamiento (Se revierte sobre sí mismo)
+    revertirVector(miVector, n);
+    
+    // 3. Salida de resultados
+    mostrarVector(miVector, n, "\n--- VECTOR REVERTIDO ---");
+
+    return 0;
+}
